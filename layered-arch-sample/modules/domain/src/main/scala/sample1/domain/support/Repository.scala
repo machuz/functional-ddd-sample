@@ -8,9 +8,9 @@ import sample1.core.util.fujitask.{ReadTransaction, Task, ReadWriteTransaction, 
   * @tparam ID 識別子の型
   * @tparam E エンティティの型
   */
-trait Repository[ID <: Identifier[_], E <: Entity[ID]] {
+trait Repository[M[+_], ID <: Identifier[_], E <: Entity[ID]] {
 
-  type This <: Repository[ID, E]
+  type This <: Repository[M, ID, E]
 
   type Ctx = Transaction
 
@@ -19,19 +19,19 @@ trait Repository[ID <: Identifier[_], E <: Entity[ID]] {
     * @param entity 保存するエンティティ
     * @return 保存したエンティティ
     */
-  def store(entity: E): Task[ReadWriteTransaction, E]
+  def store(entity: E): Task[ReadWriteTransaction, M[E]]
 
   /**
     * 識別子に該当するエンティティを取得する
     * @param id 識別子
     * @return 識別子に該当するエンティティ
     */
-  def resolveById(id: ID): Task[ReadTransaction, Option[E]]
+  def resolveById(id: ID): Task[ReadTransaction, M[Option[E]]]
 
   /**
     * 指定した識別子のエンティティを削除する
     * @param id 識別子
     */
-  def deleteById(id: ID): Task[ReadWriteTransaction, Unit]
+  def deleteById(id: ID): Task[ReadWriteTransaction, M[Unit]]
 
 }

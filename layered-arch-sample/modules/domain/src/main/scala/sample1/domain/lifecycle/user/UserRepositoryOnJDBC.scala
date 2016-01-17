@@ -1,5 +1,6 @@
 package sample1.domain.lifecycle.user
 
+import akka.actor.ActorSystem
 import sample1.core.util.fujitask.Task
 import sample1.core.util.fujitask.ReadTransaction
 import sample1.core.util.fujitask.ReadWriteTransaction
@@ -8,7 +9,11 @@ import sample1.domain.model.user.{User, UserId}
 import sample1.infrastructure.scalikejdbc.mysql.models.TUsers
 import scalikejdbc._
 
-object UserRepositoryOnJDBC extends UserRepository {
+import scala.concurrent.Future
+import scalaz.Monad
+import scalaz.Scalaz._
+
+abstract class UserRepositoryOnJDBC[M[+_]] extends UserRepository[M] {
 
   /**
     * エンティティをすべて取得する
@@ -53,3 +58,17 @@ object UserRepositoryOnJDBC extends UserRepository {
     }
 
 }
+
+class FutureUserRepositoryOnJDBC extends UserRepositoryOnJDBC[Future] {
+  implicit val ec = ActorSystem().dispatcher
+  val M = Monad[Future]
+}
+
+object FutureUserRepositoryOnJDBC extends FutureUserRepositoryOnJDBC
+
+// test用恒等射Monad
+class IDUserRepositoryOnJDBC extends UserRepositoryOnJDBC[Id] {
+  val M = Monad[Id]
+}
+
+object IDUserRepositoryOnJDBC extends IDUserRepositoryOnJDBC

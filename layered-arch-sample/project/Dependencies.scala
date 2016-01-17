@@ -10,6 +10,7 @@ object Dependencies {
 
   val coreProjectDeps = Seq(
     "com.typesafe" % "config" % "1.3.0",
+    "com.typesafe.akka" %% "akka-actor" % "2.4.1",
     "mysql" % "mysql-connector-java" % "5.1.32",
     "org.scalaz" %% "scalaz-core" % "7.1.6",
     "ch.qos.logback" % "logback-classic" % "1.1.3",
