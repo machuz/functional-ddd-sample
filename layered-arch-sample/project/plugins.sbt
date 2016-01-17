@@ -12,3 +12,9 @@ resolvers += Resolver.url("artifactory", url("http://scalasbt.artifactoryonline.
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.1")
 
+///////////////////////
+// scalikejdbc gen
+///////////////////////
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.32"
+
+addSbtPlugin("org.scalikejdbc" %% "scalikejdbc-mapper-generator" % "2.3.4")
