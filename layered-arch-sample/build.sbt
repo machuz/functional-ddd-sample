@@ -41,6 +41,20 @@ lazy val app = (project in file("./modules/sample-app"))
 lazy val domain = (project in file("./modules/domain"))
   .settings(domainSettings: _*)
   .settings(commonSettings: _*)
+  .settings(initialCommands in console := """
+    import scala.concurrent._
+    import scala.concurrent.duration.Duration
+    import scalikejdbc._
+    import scalikejdbc.config._
+    import sample1.domain.model.user._
+    import sample1.domain.model.message._
+    import sample1.domain.service.user._
+    import sample1.domain.service.message._
+    import sample1.domain.lifecycle.user._
+    import sample1.domain.lifecycle.message._
+    def getValue[A](f: Future[A]): A = Await.result(f, Duration(300, "seconds"))
+    DBs.setupAll()
+  """)
   .dependsOn(infrasutructure)
   .aggregate(infrasutructure)
 
