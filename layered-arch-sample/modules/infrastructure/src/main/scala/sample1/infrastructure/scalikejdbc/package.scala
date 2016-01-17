@@ -2,7 +2,7 @@ package sample1.infrastructure.scalikejdbc
 
 import sample1.libs.fujitask._
 import sample1.shared._
-import sample1.shared.util.fujitask._
+import sample1.core.util.fujitask._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global

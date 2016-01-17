@@ -1,4 +1,4 @@
-package sample1.shared.util.fujitask
+package sample1.core.util.fujitask
 
 util.fujitask
 
