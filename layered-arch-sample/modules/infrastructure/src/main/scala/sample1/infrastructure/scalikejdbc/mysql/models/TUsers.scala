@@ -1,7 +1,8 @@
 package sample1.infrastructure.scalikejdbc.mysql.models
 
+import sample1.core.util.pimp.RichMySQLSyntax._
 import scalikejdbc._
-import org.joda.time.{DateTime}
+import org.joda.time.DateTime
 
 case class TUsers(
   id: Int,
@@ -120,6 +121,39 @@ object TUsers extends SQLSyntaxSupport[TUsers] {
 
   def destroy(entity: TUsers)(implicit session: DBSession = autoSession): Unit = {
     withSQL { delete.from(TUsers).where.eq(column.id, entity.id) }.update.apply()
+  }
+
+  def destroyById(id: Int)(implicit session: DBSession = autoSession): Unit = {
+    withSQL { delete.from(TUsers).where.eq(column.id, id) }.update.apply()
+  }
+
+  def upsert(
+    name: String,
+    createdAt: DateTime,
+    updatedAt: DateTime)(implicit session: DBSession = autoSession): TUsers = {
+    withSQL {
+      insert.into(TUsers).columns(
+        column.name,
+        column.createdAt,
+        column.updatedAt
+      ).values(
+        name,
+        createdAt,
+        updatedAt
+      ).onDuplicateKeyUpdate(
+        column.name -> sqls.values(column.name),
+        column.updatedAt -> sqls.values(column.updatedAt),
+        column.deletedAt -> sqls.values(column.deletedAt)
+      )
+    }.update.apply()
+
+    val generatedKey = TUsers.findBy(sqls.eq(column.name, name)).getOrElse(throw new IllegalStateException(s"upsert Failed"))
+
+    TUsers(
+      id = generatedKey.id,
+      name = name,
+      createdAt = createdAt,
+      updatedAt = updatedAt)
   }
 
 }
