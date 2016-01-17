@@ -6,58 +6,58 @@ import org.specs2.mutable._
 import scalikejdbc._
 import org.joda.time.DateTime
 
-class TUsersSpec extends Specification {
+class TMessagesSpec extends Specification {
 
   DBs.setupAll()
 
-  "TUsers" should {
+  "TMessages" should {
 
-    val tu = TUsers.syntax("tu")
+    val tm = TMessages.syntax("tm")
 
     "find by primary keys" in new AutoRollbackFixture {
-      val maybeFound = TUsers.find(testData.id)
+      val maybeFound = TMessages.find(testData.id)
       maybeFound.isDefined should beTrue
     }
     "find by where clauses" in new AutoRollbackFixture {
-      val maybeFound = TUsers.findBy(sqls.eq(tu.id, testData.id))
+      val maybeFound = TMessages.findBy(sqls.eq(tm.id, testData.id))
       maybeFound.isDefined should beTrue
     }
     "find all records" in new AutoRollbackFixture {
-      val allResults = TUsers.findAll()
+      val allResults = TMessages.findAll()
       allResults.size should be_>(0)
     }
     "count all records" in new AutoRollbackFixture {
-      val count = TUsers.countAll()
+      val count = TMessages.countAll()
       count should be_>(0L)
     }
     "find all by where clauses" in new AutoRollbackFixture {
-      val results = TUsers.findAllBy(sqls.eq(tu.id, testData.id))
+      val results = TMessages.findAllBy(sqls.eq(tm.id, testData.id))
       results.size should be_>(0)
     }
     "count by where clauses" in new AutoRollbackFixture {
-      val count = TUsers.countBy(sqls.eq(tu.id, testData.id))
+      val count = TMessages.countBy(sqls.eq(tm.id, testData.id))
       count should be_>(0L)
     }
     "create new record" in new AutoRollbackFixture {
-      val created = TUsers.create(name = "name_2", createdAt = DateTime.now, updatedAt = DateTime.now)
+      val created = TMessages.create(message = "message_2", userName = "name_2", createdAt = DateTime.now, updatedAt = DateTime.now)
       created should not beNull
     }
     "save a record" in new AutoRollbackFixture {
-      val entity = TUsers.find(testData.id).head
-      val modified = entity.copy(name = "modified_name")
-      val updated = TUsers.save(modified)
+      val entity = TMessages.find(testData.id).head
+      val modified = entity.copy(userName = "modified_name")
+      val updated = TMessages.save(modified)
       updated should not equalTo entity
     }
     "destroy a record" in new AutoRollbackFixture {
-      val entity = TUsers.findAll().head
-      TUsers.destroy(entity)
-      val shouldBeNone = TUsers.find(testData.id)
+      val entity = TMessages.findAll().head
+      TMessages.destroy(entity)
+      val shouldBeNone = TMessages.find(testData.id)
       shouldBeNone.isDefined should beFalse
     }
     "perform batch insert" in new AutoRollbackFixture {
-      val entities = TUsers.findAll()
-      entities.foreach(e => TUsers.destroy(e))
-      val batchInserted = TUsers.batchInsert(entities)
+      val entities = TMessages.findAll()
+      entities.foreach(e => TMessages.destroy(e))
+      val batchInserted = TMessages.batchInsert(entities)
       batchInserted.size should be_>(0)
     }
   }
@@ -65,8 +65,8 @@ class TUsersSpec extends Specification {
   trait AutoRollbackFixture extends AutoRollback {
     val testData = createTestData
 
-    def createTestData(implicit session: scalikejdbc.DBSession): TUsers = {
-      TUsers.create(name = "name_1", createdAt = DateTime.now, updatedAt = DateTime.now)
+    def createTestData(implicit session: scalikejdbc.DBSession): TMessages = {
+      TMessages.create(message = "message_1", userName = "name_1", createdAt = DateTime.now, updatedAt = DateTime.now)
     }
   }
 
