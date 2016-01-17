@@ -15,3 +15,8 @@ case class User(
 
 }
 
+object User {
+
+  def apply(name: String): User = User(EmptyUserId, name, DateTime.now, DateTime.now)
+
+}
