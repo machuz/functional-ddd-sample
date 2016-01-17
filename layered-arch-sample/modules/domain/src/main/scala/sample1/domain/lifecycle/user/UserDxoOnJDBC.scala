@@ -3,7 +3,7 @@ package sample1.domain.lifecycle.user
 import sample1.domain.model.user.{UserId, User}
 import sample1.infrastructure.scalikejdbc.mysql.models.TUsers
 
-trait UserDxoOnJDBC extends UserDxo[User, TUsers] {
+object UserDxoOnJDBC extends UserDxo[User, TUsers] {
 
   override def toEntity(d: TUsers): User = User(UserId(d.id), d.name, d.createdAt, d.updatedAt)
 
