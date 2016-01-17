@@ -1,14 +1,10 @@
-package sample1.infrastructure.scalikejdbc
+package sample1.infrastructure
 
-import sample1.libs.fujitask._
-import sample1.shared._
 import sample1.core.util.fujitask._
-
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import _root_.scalikejdbc._
-import fujitask._
 
 package object scalikejdbc {
 
