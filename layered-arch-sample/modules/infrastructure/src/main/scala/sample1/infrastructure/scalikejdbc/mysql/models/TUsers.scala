@@ -142,8 +142,7 @@ object TUsers extends SQLSyntaxSupport[TUsers] {
         updatedAt
       ).onDuplicateKeyUpdate(
         column.name -> sqls.values(column.name),
-        column.updatedAt -> sqls.values(column.updatedAt),
-        column.deletedAt -> sqls.values(column.deletedAt)
+        column.updatedAt -> sqls.values(column.updatedAt)
       )
     }.update.apply()
 

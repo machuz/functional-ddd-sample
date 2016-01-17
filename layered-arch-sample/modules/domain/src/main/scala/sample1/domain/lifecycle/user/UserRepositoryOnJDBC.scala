@@ -9,7 +9,7 @@ import sample1.domain.model.user.{User, UserId}
 import sample1.infrastructure.scalikejdbc.mysql.models.TUsers
 import scalikejdbc._
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, ExecutionContext}
 import scalaz.Monad
 import scalaz.Scalaz._
 
@@ -20,9 +20,9 @@ abstract class UserRepositoryOnJDBC[M[+_]] extends UserRepository[M] {
     *
     * @return すべてのエンティティ
     */
-  override def resolveAll: Task[Ctx, List[User]] =
+  override def resolveAll: Task[Ctx, M[List[User]]] =
     ask.map { implicit session =>
-      TUsers.findAll().map(UserDxoOnJDBC.toEntity)
+      TUsers.findAll().map(UserDxoOnJDBC.toEntity).pure[M]
     }
 
   /**
@@ -31,9 +31,9 @@ abstract class UserRepositoryOnJDBC[M[+_]] extends UserRepository[M] {
     * @param id 識別子
     * @return 識別子に該当するエンティティ
     */
-  override def resolveById(id: UserId): Task[ReadTransaction, Option[User]] =
+  override def resolveById(id: UserId): Task[ReadTransaction, M[Option[User]]] =
     ask.map { implicit session =>
-      TUsers.find(id.value).map(UserDxoOnJDBC.toEntity)
+      TUsers.find(id.value).map(UserDxoOnJDBC.toEntity).pure[M]
     }
 
   /**
@@ -42,9 +42,9 @@ abstract class UserRepositoryOnJDBC[M[+_]] extends UserRepository[M] {
     * @param entity 保存するエンティティ
     * @return 保存したエンティティ
     */
-  override def store(entity: User): Task[ReadWriteTransaction, User] =
+  override def store(entity: User): Task[ReadWriteTransaction, M[User]] =
     ask.map { implicit session =>
-      UserDxoOnJDBC.toEntity(TUsers.upsert(entity.name, entity.createdAt, entity.updatedAt))
+      UserDxoOnJDBC.toEntity(TUsers.upsert(entity.name, entity.createdAt, entity.updatedAt)).pure[M]
     }
 
   /**
@@ -52,9 +52,9 @@ abstract class UserRepositoryOnJDBC[M[+_]] extends UserRepository[M] {
     *
     * @param id 識別子
     */
-  override def deleteById(id: UserId): Task[ReadWriteTransaction, Unit] =
+  override def deleteById(id: UserId): Task[ReadWriteTransaction, M[Unit]] =
     ask.map { implicit session =>
-      TUsers.destroyById(id.value)
+      TUsers.destroyById(id.value).pure[M]
     }
 
 }
