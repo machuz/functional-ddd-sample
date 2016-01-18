@@ -1,6 +1,6 @@
 package sample1.domain.support
 
-import sample1.core.util.fujitask.{ReadTransaction, Task, ReadWriteTransaction, Transaction}
+import sample1.core.util.fujitask.{ReadTransaction, Transaction, Task, ReadWriteTransaction}
 
 /**
   * リポジトリ責務を表すトレイト。
@@ -8,9 +8,9 @@ import sample1.core.util.fujitask.{ReadTransaction, Task, ReadWriteTransaction, 
   * @tparam ID 識別子の型
   * @tparam E エンティティの型
   */
-trait Repository[ID <: Identifier[_], E <: Entity[ID]] {
+trait FTaskRepository[ID <: Identifier[_], E <: Entity[ID]] {
 
-  type This <: Repository[ID, E]
+  type This <: FTaskRepository[ID, E]
 
   type Ctx = Transaction
 

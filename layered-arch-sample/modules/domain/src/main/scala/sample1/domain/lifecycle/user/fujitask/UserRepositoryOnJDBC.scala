@@ -1,6 +1,7 @@
-package sample1.domain.lifecycle.user
+package sample1.domain.lifecycle.user.fujitask
 
-import sample1.core.util.fujitask.{ReadTransaction, ReadWriteTransaction, Task}
+import sample1.core.util.fujitask.{ReadTransaction, Task, ReadWriteTransaction}
+import sample1.domain.lifecycle.user.UserDxoOnJDBC
 import sample1.domain.model.user.{User, UserId}
 import sample1.infrastructure.scalikejdbc._
 import sample1.infrastructure.scalikejdbc.mysql.models.TUsers

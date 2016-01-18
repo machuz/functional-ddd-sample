@@ -1,8 +1,9 @@
 package sample1.domain.service.message
 
 import org.joda.time.DateTime
-import sample1.domain.lifecycle.message.{MessageRepositoryOnJDBC, MessageRepository}
-import sample1.domain.lifecycle.user.{UserRepositoryOnJDBC, UserRepository}
+import sample1.domain.lifecycle.message.MessageRepositoryOnJDBC
+import sample1.domain.lifecycle.user.UserRepositoryOnJDBC
+import sample1.domain.lifecycle.user.fujitask.{UserRepositoryOnJDBC, UserRepository}
 import sample1.domain.model.message.{EmptyMessageId, MessageId, Message}
 import sample1.domain.model.user.UserId
 import sample1.infrastructure.scalikejdbc._
