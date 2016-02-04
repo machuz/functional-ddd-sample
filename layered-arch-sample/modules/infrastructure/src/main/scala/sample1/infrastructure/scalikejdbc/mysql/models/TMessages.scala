@@ -1,6 +1,8 @@
 package sample1.infrastructure.scalikejdbc.mysql.models
 
-import sample1.core.util.pimp.RichMySQLSyntax._
+import sample1.core.util.pimp.RichMySQLSyntax
+import RichMySQLSyntax._
+import sample1.core.util.pimp.RichMySQLSyntax
 import scalikejdbc._
 import org.joda.time.DateTime
 

@@ -1,7 +1,8 @@
-package sample1.domain.lifecycle.message
+package sample1.domain.lifecycle.message.fujitask
 
-import sample1.core.util.fujitask.{ReadTransaction, ReadWriteTransaction, Task}
-import sample1.domain.model.message.{MessageId, Message}
+import sample1.core.util.fujitask.{ReadTransaction, Task, ReadWriteTransaction}
+import sample1.domain.lifecycle.message.MessageDxoOnJDBC
+import sample1.domain.model.message.{Message, MessageId}
 import sample1.infrastructure.scalikejdbc._
 import sample1.infrastructure.scalikejdbc.mysql.models.TMessages
 

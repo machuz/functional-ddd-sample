@@ -1,7 +1,7 @@
 package sample1.infrastructure.scalikejdbc
 
 import _root_.scalikejdbc._
-import sample1.core.util.fujitask.{ReadWriteTransaction, ReadTransaction}
+import sample1.core.util.fujitask.{ReadTransaction, ReadWriteTransaction}
 
 abstract class ScalikeJDBCTransaction(val session: DBSession)
 

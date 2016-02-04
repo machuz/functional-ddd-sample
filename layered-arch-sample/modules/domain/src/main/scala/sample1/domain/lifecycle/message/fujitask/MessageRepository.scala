@@ -1,10 +1,10 @@
-package sample1.domain.lifecycle.message
+package sample1.domain.lifecycle.message.fujitask
 
-import sample1.core.util.fujitask.{ReadTransaction, Task}
+import sample1.core.util.fujitask.{Task, ReadTransaction}
 import sample1.domain.model.message.{Message, MessageId}
-import sample1.domain.support.Repository
+import sample1.domain.support.FTaskRepository
 
-trait MessageRepository extends Repository[MessageId, Message] {
+trait MessageRepository extends FTaskRepository[MessageId, Message] {
 
   /**
     * エンティティをすべて取得する
@@ -14,4 +14,3 @@ trait MessageRepository extends Repository[MessageId, Message] {
   def resolveAll: Task[ReadTransaction, List[Message]]
 
 }
-
